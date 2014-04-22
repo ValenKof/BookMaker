@@ -2,15 +2,18 @@ BookMaker
 =========
 
 ACM-MISIS Team Reference Document
+---------------------------------
 
 BookMaker searches directory for *.h and *.cpp files. It combines *.h files into HEADER and compiles every *.cpp file with this HEADER. 
 
 Usage
+-----
 
 javac BookMaker.java
 java BookMaker <dir>
 
 TODO
+----
 
 1) Check files endings
 2) Replace tabs by two spaces
