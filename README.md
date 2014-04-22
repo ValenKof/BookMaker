@@ -12,7 +12,6 @@ BookMaker searches directory for *.h and *.cpp files. It combines *.h files into
 ### TODO
 
 * Check files endings
-* Replace tabs by two spaces
 * Check lines width
 * Remove HEADER from *.cpp file
 * Always clear folder
