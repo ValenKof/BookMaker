@@ -1,27 +1,23 @@
-BookMaker
-=========
+# BookMaker
 
-ACM-MISIS Team Reference Document
----------------------------------
+### ACM-MISIS Team Reference Document
 
 BookMaker searches directory for *.h and *.cpp files. It combines *.h files into HEADER and compiles every *.cpp file with this HEADER. 
 
-Usage
------
+### Usage
 
-javac BookMaker.java
-java BookMaker <dir>
+- javac BookMaker.java
+- java BookMaker <dir>
 
-TODO
-----
+### TODO
 
-1) Check files endings
-2) Replace tabs by two spaces
-3) Check lines width
-4) Remove HEADER from *.cpp file
-5) Always clear folder
-6) Kill g++.exe after 5 seconds. 
-7) Make *.pdf document
+* Check files endings
+* Replace tabs by two spaces
+* Check lines width
+* Remove HEADER from *.cpp file
+* Always clear folder
+* Kill g++.exe after 5 seconds. 
+* Make *.pdf document
 
 
 
