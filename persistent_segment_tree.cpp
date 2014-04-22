@@ -27,10 +27,10 @@ Tree* add(int x, int l, int r, Tree* t) {
 
 int tree_sum(int ql, int qr, int l, int r, Tree* t1, Tree* t2) {
   if (ql <= l && r <= qr) return t2->s - t1->s;
-	if (r <= ql || qr <= l) return 0;
+  if (r <= ql || qr <= l) return 0;
   int m = (l + r) / 2;
   return tree_sum(ql, qr, l, m, t1->l, t2->l)
-	     + tree_sum(ql, qr, m, r, t1->r, t2->r);
+       + tree_sum(ql, qr, m, r, t1->r, t2->r);
 }
 
 // 1 <= l <= r <= n

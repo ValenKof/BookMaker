@@ -10,6 +10,6 @@ typedef tree<int,null_type,less<int>, rb_tree_tag,
 tree_order_statistics_node_update> TREE;
 
 void solve(TREE m, int k) {
-	cout << m.order_of_key(k); // # of keys < k
-	cout << *m.find_by_order(k); // k-th element
+  cout << m.order_of_key(k); // # of keys < k
+  cout << *m.find_by_order(k); // k-th element
 }

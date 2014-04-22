@@ -29,9 +29,9 @@ void mark_path(int v, int b, int children) {
 }
 
 int find_path(int root) {
-	static int q[N];
-	fill(used, used + n, false);
-	fill(p, p + n, -1);
+  static int q[N];
+  fill(used, used + n, false);
+  fill(p, p + n, -1);
   forn (i, n) base[i] = i;
   used[root] = true;
   int qh = 0, qt = 0;
@@ -67,9 +67,9 @@ int find_path(int root) {
 }
 
 void maxMatch() {
-	/* readGraph() */
+  /* readGraph() */
   fill(mt, mt + n, -1);
-	forn (u, n) {
+  forn (u, n) {
     if (mt[u] != -1) continue; 
     for (int v : g[u]) {
       if (mt[v] != -1) continue;

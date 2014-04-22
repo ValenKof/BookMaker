@@ -8,6 +8,7 @@ import java.util.concurrent.*;
 public class BookMaker {
 
     public static final int THREADS_NUMBER = 8;
+    public static final int TABS_WIDTH = 2;
 
     public static void require(boolean condition, String message) {
         if (!condition) {
@@ -22,12 +23,20 @@ public class BookMaker {
             while (in.hasNextLine()) {
                 builder.append(in.nextLine()).append('\n');
             }
-            in.close();
             return builder.toString();
         } catch (IOException e) {
             BookMaker.require(false, e.getMessage());
         }
         return builder.toString();
+    }
+
+    public static void writeAll(String text, File file) {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file)))) {
+            out.print(text);
+            out.flush();
+        } catch (IOException e) {
+            BookMaker.require(false, e.getMessage());
+        }
     }
 
     public static String makeHeader(List<File> files) {
@@ -36,6 +45,16 @@ public class BookMaker {
             header.append(readAll(file)).append('\n');
         }
         return header.toString();
+    }
+
+    public static void replaceTabs(File file, int nSpaces) {
+        StringBuilder replace = new StringBuilder();
+        for (int i = 0; i < nSpaces; ++i) {
+            replace.append(' ');
+        }
+        String text = readAll(file);
+        text = text.replaceAll("\t", replace.toString());
+        writeAll(text, file);
     }
 
     public static void main(String[] args) {
@@ -100,6 +119,8 @@ class CppCompiler implements Callable<String> {
     @Override
     public String call() {
         try {
+
+            BookMaker.replaceTabs(file, BookMaker.TABS_WIDTH);
 
             String code = BookMaker.readAll(file);
             StringBuilder source = new StringBuilder();

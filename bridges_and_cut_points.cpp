@@ -32,7 +32,7 @@ void dfs(int u, int p) {
 void solve() {
   timer = 0;
   fill(used, used + n, false);
-	bridges.resize(0);
+  bridges.resize(0);
   cut_points.resize(0);
   forn (i, n) if (!used[i]) dfs(i, -1);
 }

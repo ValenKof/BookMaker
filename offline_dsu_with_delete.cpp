@@ -32,13 +32,13 @@ void del_arc(int u, int v) {
 }
 
 void input() {
-	cin >> n >> m;
+  cin >> n >> m;
   k = (int)(sqrt((double)(m)) + 1);
  
-	fill(used, used + n, -1);
+  fill(used, used + n, -1);
   map<PII, stack<int> > st;
   forn (i, m) {
-		cin >> q_t[i] >> q_u[i] >> q_v[i];
+    cin >> q_t[i] >> q_u[i] >> q_v[i];
     --q_u[i], --q_v[i], q_id[i] = -1;
     if (q_u[i] > q_v[i]) swap(q_u[i], q_v[i]);
     if (q_t[i] == '+') {

@@ -7,15 +7,15 @@ int LINK[M], CAP[M], DEST[M]; // M
 int HEAD[N], PRO[N], QUEUE[N], LEVEL[N]; // N
 
 inline void addArc(int u, int v, int c) {
-	CAP[freeArc] = c;
-	DEST[freeArc] = v;
-	LINK[freeArc] = HEAD[u];
-	HEAD[u] = freeArc++;
+  CAP[freeArc] = c;
+  DEST[freeArc] = v;
+  LINK[freeArc] = HEAD[u];
+  HEAD[u] = freeArc++;
 }
 
 inline void addEdge(int u, int v, int c) {
-	addArc(u, v, c);
-	addArc(v, u, c);
+  addArc(u, v, c);
+  addArc(v, u, c);
 }
 
 bool bfs() {
@@ -56,11 +56,11 @@ int dfs(int v, int f, int pushed = 0) {
 }
 
 void solve() {
-	cin >> n >> m;
+  cin >> n >> m;
   s = 0 , t = n - 1, freeArc = 0;
   fill(HEAD, HEAD + n, -1);
   for (int i = 0, u, v, c; i < m; ++i) {
-		cin >> u >> v >> c;
+    cin >> u >> v >> c;
     addEdge(u, v, c);
   }
   int flow = 0, pushed = 0;
@@ -70,7 +70,7 @@ void solve() {
       flow += pushed;
     }
   }
-	cout << flow << endl;
+  cout << flow << endl;
   forn (i, m) {
     int arc = 2 * i;
     int cap = (CAP[arc ^ 1] - CAP[arc]) / 2;

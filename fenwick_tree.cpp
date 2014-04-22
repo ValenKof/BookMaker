@@ -28,13 +28,13 @@ int ans() {
 
 void solve() {
   cin >> n;
-	while ((cin >> q) && q != 3) {
+  while ((cin >> q) && q != 3) {
     if (q == 1) { // 0 <= x, y, z < N
       cin >> p.x >> p.y >> p.z >> k;
       update();
     } else { // s[l.x...r.x][l.y...r.y][l.z...r.z]
-			cin >> l.x >> l.y >> l.z >> r.x >> r.y >> r.z;
-			cout << ans() << endl;
+      cin >> l.x >> l.y >> l.z >> r.x >> r.y >> r.z;
+      cout << ans() << endl;
     }
   }
 }

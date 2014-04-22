@@ -3,9 +3,9 @@ const T EPS = 1e-7;
 T sqr(T x) { return x * x; }
 
 int cmp(T a, T b) {
-	if (a > b + EPS) return +1;
-	if (a + EPS < b) return -1;
-	return 0;
+  if (a > b + EPS) return +1;
+  if (a + EPS < b) return -1;
+  return 0;
 }
 
 int sign(T x) { return cmp(x, 0); }
@@ -20,10 +20,10 @@ struct PT {
     T cosa = cos(a), sina = sin(a);
     return PT(x*cosa-y*sina, x*sina+y*cosa);
   }
-	PT operator+(PT p) {return PT(x+p.x,y+p.y);}
-	PT operator-(PT p) {return PT(x-p.x,y-p.y);}
-	PT operator*(T d) {return PT(x*d,y*d);}
-	PT operator/(T d) {return PT(x/d,y/d);}
+  PT operator+(PT p) {return PT(x+p.x,y+p.y);}
+  PT operator-(PT p) {return PT(x-p.x,y-p.y);}
+  PT operator*(T d) {return PT(x*d,y*d);}
+  PT operator/(T d) {return PT(x/d,y/d);}
 };
 typedef vector<PT> PTS;
 
@@ -53,12 +53,12 @@ PTS ConvexHull(PTS& pts) {
 
 /// POINT IN POLYGON, +1 outside, 0 border, -1 inside
 int PointInPolygon(const PTS& p, PT q) { 
-	int cnt[3] = { 0, 0, 0 };
+  int cnt[3] = { 0, 0, 0 };
   for (int i = 0; i < sz(p); i++) { 
     int j = (i + 1) % sz(p); 
-		cnt[sign(area2(p[i], q, p[j])) + 1]++;
+    cnt[sign(area2(p[i], q, p[j])) + 1]++;
   } 
-	return (cnt[0] && cnt[2]) ? +1 : (cnt[1] ? 0 : -1);
+  return (cnt[0] && cnt[2]) ? +1 : (cnt[1] ? 0 : -1);
 }
 
 /// INTERSECTION OF CIRCLES (a, r) and (b, R)
@@ -89,9 +89,9 @@ PTS CircleLineIntersection(PT a, PT b, PT c, T r) {
   return ret; 
 }
 
-/// SPHERE SEGMENT AREA. H – SEGMENT HEIGHT
+/// SPHERE SEGMENT AREA. H ï¿½ SEGMENT HEIGHT
 T SphereSegmentArea(T H, T R) {return 2*PI*R*H; }
 
-/// SPHERICAL DISTANCE.THETA(T)–LATITUDE(V^OXY), PHI(P)–LONGITUDE
+/// SPHERICAL DISTANCE.THETA(T)ï¿½LATITUDE(V^OXY), PHI(P)ï¿½LONGITUDE
 T SphericalDistance(T t1, T p1, T t2, T p2, T R)
 {return R*acos(sin(t1)*sin(t2) + cos(t1)*cos(t2)*cos(p1 - p2));}

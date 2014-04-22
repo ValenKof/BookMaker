@@ -21,10 +21,10 @@ void fft(vector<base>& a, bool invert) {
       base w(1, 0); // 1
       forn (j, len) {
         base u = a[i + j];
-        base v = a[i + j + len] * w; // … %MOD
-        a[i + j] = u + v; // … %MOD
-        a[i + j + len] = u - v; // … %MOD
-        w = w * wlen; // … %MOD
+        base v = a[i + j + len] * w; // ï¿½ %MOD
+        a[i + j] = u + v; // ï¿½ %MOD
+        a[i + j + len] = u - v; // ï¿½ %MOD
+        w = w * wlen; // ï¿½ %MOD
       }
     }
   }
