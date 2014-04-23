@@ -24,7 +24,7 @@ void solve() {
     for (int i = n - 1; i >= 0; --i) p[--cnt[c[pn[i]]]] = pn[i];
     cn[p[0]] = 0;
     for (int i = 1, classes = 1; i < n; ++i) {
-      int mid1 = (p[i] + (1<<h)) % n,  mid2 = (p[i-1] + (1<<h)) % n;
+      int mid1 = (p[i]+(1<<h)) % n,  mid2 = (p[i-1]+(1<<h)) % n;
       if (c[p[i]] != c[p[i-1]] || c[mid1] != c[mid2]) classes++;
       cn[p[i]] = classes - 1;
     }

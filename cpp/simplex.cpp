@@ -1,16 +1,12 @@
-// 2-phase simplex algorithm for solving linear programs of the form
-//
-// maximize c^T x
-// subject to Ax <= b
-// x >= 0
+// c^T * x -> max, Ax <= b, x >= 0
 //
 // INPUT: A -- an m x n matrix
 // b -- an m-dimensional vector
 // c -- an n-dimensional vector
-// x -- a vector where the optimal solution will be stored
+// x -- optimal solution
 //
-// OUTPUT: value of the optimal solution (infinity if unbounded
-// above, nan if infeasible)
+// OUTPUT: value of the optimal solution
+// (infinity if unbounded above, nan if infeasible)
 
 const DOUBLE EPS = 1e-9;
 struct LPSolver {
@@ -59,7 +55,7 @@ bool Simplex(int phase) {
 
 DOUBLE Solve(VD &x) {
   int r = 0;
-  for (int i = 1; i < m; i++) if (D[i][n + 1] < D[r][n + 1]) r = i;
+  for (int i = 1; i < m; i++) if (D[i][n+1] < D[r][n+1]) r = i;
   if (D[r][n + 1] <= -EPS) {
     Pivot(r, n);
     if (!Simplex(1) || D[m + 1][n + 1] < -EPS) 

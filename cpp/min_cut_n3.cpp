@@ -9,7 +9,7 @@ pair<int, VI> GetMinCut(VVI& weights, int N) {
       prev = last;
       last = -1;
       for (int j = 1; j < N; j++)
-        if (!added[j] && (last == -1 || w[j] > w[last])) last = j;
+        if (!added[j] && (last==-1 || w[j]>w[last])) last = j;
       if (i == phase - 1) {
         forn (j, N) weights[prev][j] += weights[last][j];
         forn (j, N) weights[j][prev] = weights[prev][j];

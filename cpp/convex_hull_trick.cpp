@@ -1,5 +1,5 @@
 //SOLVE dp[i] = min(a[i] * b[j] + dp[j]), j = 0...i - 1
-//a[i]<a[i+1], b[i]>b[i+1] (at this task dp[0]=0,a[0]=1, b[n-1]=0)
+//a[i]<a[i+1], b[i]>b[i+1] (dp[0]=0,a[0]=1, b[n-1]=0)
 //in O(NlogN) time and O(N) memory
 
 const int N = 100000;
@@ -12,7 +12,7 @@ bool bad(int i1, int i2, int i3) {
 }
 
 void add(int i) {
-  while (r - l > 1 && bad(st[r-2], st[r-1], i)) r--;
+  while (r-l > 1 && bad(st[r-2], st[r-1], i)) r--;
   st[r++] = i;
 }
 
@@ -20,7 +20,7 @@ ll val(int i, int j) { return 1LL * a[i] * b[j] + dp[j]; }
 
 ll query(int i) {
   l = min(l, r - 1);
-  while (l + 1 < r && val(i, st[l + 1]) < val(i, st[l])) l++;
+  while (l+1 < r && val(i, st[l+1]) < val(i, st[l])) l++;
   return val(i, st[l]);
 }
 

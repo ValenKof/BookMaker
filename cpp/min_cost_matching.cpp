@@ -1,10 +1,11 @@
-void solve(int n, int m, int INF, vector<VI> a) {//a[1.n][1.m],m>=n
-  VI u(n + 1), v(m + 1), p(m + 1), way(m + 1), ans(n + 1);
+void solve(int n, int m, int INF, vector<VI> a) {
+  // a[1..n][1..m]
+  VI u(n+1), v(m+1), p(m+1), way(m+1), ans(n+1);
   for (int i = 1; i <= n; ++i) { 
     p[0] = i;
     int j0 = 0;
-    VI minv(m + 1, INF);
-    vector<char> used(m + 1, false);
+    VI minv(m+1, INF);
+    vector<char> used(m+1, false);
     do {
       used[j0] = true;
       int i0 = p[j0],  delta = INF,  j1;

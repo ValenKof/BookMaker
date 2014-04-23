@@ -20,10 +20,10 @@ struct PT {
     T cosa = cos(a), sina = sin(a);
     return PT(x*cosa-y*sina, x*sina+y*cosa);
   }
-  PT operator+(PT p) {return PT(x+p.x,y+p.y);}
-  PT operator-(PT p) {return PT(x-p.x,y-p.y);}
-  PT operator*(T d) {return PT(x*d,y*d);}
-  PT operator/(T d) {return PT(x/d,y/d);}
+  PT operator+(PT p) { return PT(x+p.x,y+p.y); }
+  PT operator-(PT p) { return PT(x-p.x,y-p.y); }
+  PT operator*(T d) { return PT(x*d,y*d); }
+  PT operator/(T d) { return PT(x/d,y/d); }
 };
 typedef vector<PT> PTS;
 
@@ -33,18 +33,21 @@ bool operator<(PT a, PT b)
 bool operator==(PT a, PT b)
 { return !cmp(a.x, b.x) && !cmp(a.y, b.y); }
 
-T dot(PT a, PT b) {return a.x*b.x + a.y*b.y;}
-T dist2(PT a, PT b) {return sqr(a.x-b.x)+sqr(a.y-b.y);}  
+T dot(PT a, PT b) { return a.x*b.x + a.y*b.y; }
+T dist2(PT a, PT b) { return sqr(a.x-b.x)+sqr(a.y-b.y); }
 T cross(PT p, PT q) { return p.x * q.y - p.y * q.x; } 
-T area2(PT a, PT b, PT c) {return cross(a,b)+cross(b,c)+cross(c,a);} 
+T area2(PT a, PT b, PT c)
+{ return cross(a,b)+cross(b,c)+cross(c,a); } 
  
 /// CONVEX HULL
 PTS ConvexHull(PTS& pts) {
   sort(all(pts));
   PTS up, dn; 
   for (PT p : pts) {
-    while(sz(up)>1 && area2(up[sz(up)-2],up.back(),p)>=0)up.pop_back();
-    while(sz(dn)>1 && area2(dn[sz(dn)-2],dn.back(),p)<=0)dn.pop_back();
+    while(sz(up)>1 && area2(up[sz(up)-2],up.back(),p)>=0)
+      up.pop_back();
+    while(sz(dn)>1 && area2(dn[sz(dn)-2],dn.back(),p)<=0)
+      dn.pop_back();
     up.pb(p), dn.pb(p); 
   }
   copy(dn.rbegin() + 1, dn.rend() - 1, back_inserter(up));

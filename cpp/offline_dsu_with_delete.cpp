@@ -84,7 +84,7 @@ void solve() {
       if (q_t[j] == '-') del_arc(q_u[j], q_v[j]);
       if (q_t[j] == '+') add_arc(q_u[j], q_v[j]);
       if (q_t[j] == '?') printf("%c\n", 
-          dfs(dsu_find(q_u[j]), dsu_find(q_v[j]), j) ? '+' : '-');
+          dfs(dsu_find(q_u[j]),dsu_find(q_v[j]),j) ? '+' : '-');
     }    
     for (int j = i; j < min(m, i + k); ++j) {
       if (q_t[j] == '-') {
