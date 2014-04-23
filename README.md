@@ -6,8 +6,9 @@ BookMaker searches directory for *.h and *.cpp files. It combines *.h files into
 
 ### Usage
 
+- rm *.class
 - javac BookMaker.java
-- java BookMaker <dir>
+- java BookMaker cpp
 
 ### TODO
 
