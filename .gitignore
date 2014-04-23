@@ -1,3 +1,4 @@
 *.class
 *.exe
 _compile_*
+*.DS_Store

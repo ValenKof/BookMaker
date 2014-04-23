@@ -1,4 +1,6 @@
 import java.io.*;
+import java.lang.reflect.Array;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -18,28 +20,38 @@ public class BookMaker {
     public static String makeHeader(List<File> files) {
         StringBuilder header = new StringBuilder();
         for (File file : files) {
-            try {
-                header.append(FileIO.readAll(file));
-            } catch (IOException e) {
-                REQUIRE(false, e.getMessage());
-            }
+            header.append("#include \"").append(file.getName()).append('\"').append('\n');
         }
         return header.toString();
     }
 
     public static void main(String[] args) {
 
-        REQUIRE(args.length == 1, "Usage: <dir>");
+        REQUIRE(args.length >= 1, "Usage: dir +add_file -ignore_file ... ");
+
+
+
 
         File dir = new File(args[0]);
         REQUIRE(dir.isDirectory(), args[0] + " is not a dir");
 
-        List<File> hFiles = FileIO.getFiles(dir.listFiles(), ".h");
+        List<File> files = FileIO.listFiles(dir);
+        for (int iArg = 1; iArg < args.length; ++iArg) {
+            char sign = args[iArg].charAt(0);
+            File file = new File(args[iArg].substring(1, args[iArg].length()));
+            switch (sign) {
+                case '+': files.add(file); break;
+                case '-': files.remove(file); break;
+                default: REQUIRE(false, "Invalid Argument: " + args[iArg]);
+            }
+        }
+
+        List<File> hFiles = FileIO.getFiles(files, ".h");
         String header = makeHeader(hFiles);
 
         ExecutorService executor = Executors.newFixedThreadPool(THREADS_NUMBER);
         List<Callable<String>> tasks = new ArrayList<>();
-        List<File> cppFiles = FileIO.getFiles(dir.listFiles(), ".cpp");
+        List<File> cppFiles = FileIO.getFiles(files, ".cpp");
         for (File file : cppFiles) {
             tasks.add(new CppCompiler(file, header));
         }
@@ -62,7 +74,15 @@ class CppCompiler implements Callable<String> {
     public static final String EXCEPTION = "Exception";
     public static final String LONG_LINES = "Long Lines";
 
-    public static final String GCC = "g++ -g -O2 -std=gnu++0x -static";
+    public static final String GCC;
+    static {
+        String OS = System.getProperty("os.name", "generic").toLowerCase();
+        if (OS.contains("mac") || OS.contains("darwin")) {
+            GCC = "g++ -g -O2 -std=c++11 -stdlib=libc++";
+        } else {
+            GCC = "g++ -g -O2 -std=gnu++0x -static";
+        }
+    }
 
     private final File file;
     private final String header;

@@ -17,10 +17,7 @@ public class FileIO {
         }
     }
 
-    public static List<File> getFiles(File[] files, String extension) {
-        if (files == null) {
-            return Collections.emptyList();
-        }
+    public static List<File> getFiles(List<File> files, String extension) {
         List<File> result = new ArrayList<>();
         for (File file : files) {
             if (file.getName().endsWith(extension)) {
@@ -28,6 +25,15 @@ public class FileIO {
             }
         }
         return result;
+    }
+
+    public static List<File> listFiles(File file) {
+        List<File> list = new ArrayList<>();
+        File[] files = file.listFiles();
+        if (files != null) {
+            list.addAll(Arrays.asList(files));
+        }
+        return list;
     }
 
 }
