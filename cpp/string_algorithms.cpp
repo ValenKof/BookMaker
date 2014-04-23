@@ -15,18 +15,18 @@ string min_cyclic_shift(string s) {
 
 void pal(const string& s) {
   int n = sz(s);
-  VI d1(n), d2(n);
+  vector<int> d1(n), d2(n); // d2[0] useless
   for (int i = 0, l = 0, r = -1; i < n; ++i) {
-    int k = (i > r ? 0 : min(d1[l + r - i], r - i)) + 1;
-    while (i+k < n && i-k >= 0 && s[i+k] == s[i-k]) k++;
-    d1[i] = k--;
-    if (i + k > r) l = i - k,  r = i + k;
+    int k = (i > r ? 0 : min(d1[l+r-i], r-i)) + 1;
+    while (0 <= i-k && i+k < n && s[i-k] == s[i+k]) ++k;
+    d1[i] = --k; // [i - d, i + d], len = 2 * d + 1
+    if (i + k > r) l = i - k, r = i + k;
   }
   for (int i = 0, l = 0, r = -1; i < n; ++i) {
-    int k = (i > r ? 0 : min(d2[l + r - i + 1], r - i + 1)) + 1;
-    while (i+k-1 < n && i-k >= 0 && s[i+k-1] == s[i-k]) k++;
-    d2[i] = --k;
-    if (i + k - 1 > r) l = i - k,  r = i + k - 1;
+    int k = (i > r ? 0 : min(d2[l+r-i+1], r-i+1)) + 1;
+    while (0 <= i-k && i+k-1 < n && s[i-k] == s[i+k-1]) ++k;
+    d2[i] = --k; // [i - d, i + d), len = 2 * d
+    if (i + k - 1 > r) l = i - k, r = i + k - 1;
   }
 }
 
