@@ -77,6 +77,9 @@ class CppCompiler implements Callable<String> {
     public String call() {
         try {
             SourceEditor.replaceTabs(file, BookMaker.TABS_WIDTH);
+            SourceEditor.removeNewLines(file);
+            SourceEditor.removeSpaces(file);
+
             String code = FileIO.readAll(file);
 
             List<Integer> longLines = SourceEditor.checkWidth(code, BookMaker.LINES_WIDTH);

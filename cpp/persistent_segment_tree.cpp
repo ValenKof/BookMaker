@@ -9,10 +9,10 @@ struct Tree {
 
 Tree* roots[N + 1];
 
-Tree* EMPTY_TREE() { 
-  Tree* v = new Tree(); 
-  v->l = v->r = v; 
-  return v; 
+Tree* EMPTY_TREE() {
+  Tree* v = new Tree();
+  v->l = v->r = v;
+  return v;
 }
 
 Tree* add(int x, int l, int r, Tree* t) {
@@ -35,5 +35,5 @@ int tree_sum(int ql, int qr, int l, int r, Tree* t1, Tree* t2) {
 
 // 1 <= l <= r <= n
 inline int sum(int l1, int r1, int l2, int r2, int n) {
-  return tree_sum(l2-1, r2, 0, n, roots[l1-1], roots[r2]); 
+  return tree_sum(l2-1, r2, 0, n, roots[l1-1], roots[r2]);
 }

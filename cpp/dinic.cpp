@@ -39,7 +39,7 @@ bool bfs() {
 
 int dfs(int v, int f, int pushed = 0) {
   if (v == t || f == 0) return f;
-  for (int& arc = PRO[v]; arc != -1; arc = LINK[arc]) {    
+  for (int& arc = PRO[v]; arc != -1; arc = LINK[arc]) {
     int to = DEST[arc];
     if ((LEVEL[v] + 1 == LEVEL[to]) && (CAP[arc] > 0)) {
       int p = dfs(to, min(CAP[arc], f));
@@ -50,7 +50,7 @@ int dfs(int v, int f, int pushed = 0) {
           return pushed;
         }
       }
-    } 
+    }
   }
   return pushed;
 }

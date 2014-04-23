@@ -1,7 +1,7 @@
 void solve(int n, int m, int INF, vector<VI> a) {
   // a[1..n][1..m]
   VI u(n+1), v(m+1), p(m+1), way(m+1), ans(n+1);
-  for (int i = 1; i <= n; ++i) { 
+  for (int i = 1; i <= n; ++i) {
     p[0] = i;
     int j0 = 0;
     VI minv(m+1, INF);

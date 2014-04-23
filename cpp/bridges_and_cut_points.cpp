@@ -28,7 +28,7 @@ void dfs(int u, int p) {
     cut_points.push_back(u);
   }
 }
- 
+
 void solve() {
   timer = 0;
   fill(used, used + n, false);

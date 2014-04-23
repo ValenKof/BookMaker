@@ -32,4 +32,39 @@ public class SourceEditor {
         return result;
     }
 
+    public static String removeNewLines(String text) {
+        int l = 0;
+        while (l < text.length() && text.charAt(l) == '\n') {
+            l++;
+        }
+        int r = text.length();
+        while (r > 0 && text.charAt(r - 1) == '\n') {
+            r--;
+        }
+        return l < r ? text.substring(l, r) : "";
+    }
+
+    public static void removeNewLines(File file) throws IOException {
+        FileIO.writeAll(removeNewLines(FileIO.readAll(file)), file);
+    }
+
+    public static String removeSpaces(String text) {
+        String[] lines = text.split("\n");
+        StringBuilder builder = new StringBuilder();
+        for (int iLine = 0; iLine < lines.length; ++iLine) {
+            if (iLine != 0) {
+                builder.append('\n');
+            }
+            int size = lines[iLine].length();
+            while (size > 0 && Character.isWhitespace(lines[iLine].charAt(size - 1))) {
+                size--;
+            }
+            builder.append(lines[iLine].substring(0, size));
+        }
+        return builder.toString();
+    }
+
+    public static void removeSpaces(File file) throws IOException {
+        FileIO.writeAll(removeSpaces(FileIO.readAll(file)), file);
+    }
 }

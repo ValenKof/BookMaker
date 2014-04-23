@@ -34,7 +34,7 @@ void del_arc(int u, int v) {
 void input() {
   cin >> n >> m;
   k = (int)(sqrt((double)(m)) + 1);
- 
+
   fill(used, used + n, -1);
   map<PII, stack<int> > st;
   forn (i, m) {
@@ -83,9 +83,9 @@ void solve() {
     for (int j = i; j < min(m, i + k); ++j) {
       if (q_t[j] == '-') del_arc(q_u[j], q_v[j]);
       if (q_t[j] == '+') add_arc(q_u[j], q_v[j]);
-      if (q_t[j] == '?') printf("%c\n", 
+      if (q_t[j] == '?') printf("%c\n",
           dfs(dsu_find(q_u[j]),dsu_find(q_v[j]),j) ? '+' : '-');
-    }    
+    }
     for (int j = i; j < min(m, i + k); ++j) {
       if (q_t[j] == '-') {
         is_cur[q_id[j]] = false;

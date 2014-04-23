@@ -1,16 +1,13 @@
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.*;
 
 public class FileIO {
 
     public static String readAll(File file) throws IOException {
-        StringBuilder builder = new StringBuilder();
-        try (Scanner in = new Scanner(new BufferedReader(new FileReader(file)))) {
-            while (in.hasNextLine()) {
-                builder.append(in.nextLine()).append('\n');
-            }
-        }
-        return builder.toString();
+        byte[] encoded = Files.readAllBytes(file.toPath());
+        return new String(encoded, Charset.defaultCharset());
     }
 
     public static void writeAll(String text, File file) throws IOException {

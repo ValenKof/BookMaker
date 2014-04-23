@@ -5,10 +5,10 @@
 const int N = 100000;
 int n, l = 0, r = 0, a[N], b[N], st[N];
 ll dp[N];
-// point (i1, i3) is under line i2 / p12.x > p23.x 
-bool bad(int i1, int i2, int i3) { 
-  return (dp[i2] - dp[i1]) / (b[i1] - b[i2])          
-       > (dp[i3] - dp[i2]) / (b[i2] - b[i3]);  
+// point (i1, i3) is under line i2 / p12.x > p23.x
+bool bad(int i1, int i2, int i3) {
+  return (dp[i2] - dp[i1]) / (b[i1] - b[i2])
+       > (dp[i3] - dp[i2]) / (b[i2] - b[i3]);
 }
 
 void add(int i) {

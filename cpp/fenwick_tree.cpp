@@ -20,10 +20,10 @@ int s(int xx, int yy, int zz, int sum = 0) {
 }
 
 int ans() {
-  --l.x, --l.y, --l.z;    
+  --l.x, --l.y, --l.z;
   return s(r.x, r.y, r.z) - s(l.x, l.y, l.z)
-       - s(r.x, r.y, l.z) - s(r.x, l.y, r.z) - s(l.x, r.y, r.z) 
-       + s(r.x, l.y, l.z) + s(l.x, r.y, l.z) + s(l.x, l.y, r.z); 
+       - s(r.x, r.y, l.z) - s(r.x, l.y, r.z) - s(l.x, r.y, r.z)
+       + s(r.x, l.y, l.z) + s(l.x, r.y, l.z) + s(l.x, l.y, r.z);
 }
 
 void solve() {

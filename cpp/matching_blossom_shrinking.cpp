@@ -1,8 +1,8 @@
-const int N = 1000; 
+const int N = 1000;
 VI g[N];
 int n, m, mt[N], p[N], base[N];
 bool blossom[N], used[N];
-  
+
 int lca(int a, int b) {
   static bool used[N];
   fill(used, used + n, false);
@@ -70,7 +70,7 @@ void maxMatch() {
   /* readGraph() */
   fill(mt, mt + n, -1);
   forn (u, n) {
-    if (mt[u] != -1) continue; 
+    if (mt[u] != -1) continue;
     for (int v : g[u]) {
       if (mt[v] != -1) continue;
       mt[v] = u, mt[u] = v;

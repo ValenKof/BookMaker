@@ -28,9 +28,9 @@ VI modular_linear_equation_solver(int a, int b, int n) {
 
 // solve a^x = b (mod m) in sqrt(m) * log(m)
 int solve(int a, int b, int m) {
-  int n = (int) sqrt(m + 0.0) + 1; 
-  int an = 1;  
-  forn (i, n) an = (an * a) % m; // or bin_pow(a, n, m);  
+  int n = (int) sqrt(m + 0.0) + 1;
+  int an = 1;
+  forn (i, n) an = (an * a) % m; // or bin_pow(a, n, m);
   map<int, int> vals;
   for (int i = 1, cur = an; i <= n; ++i) {
     if (!vals.count(cur)) vals[cur] = i;
