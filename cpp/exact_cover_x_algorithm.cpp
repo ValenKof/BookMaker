@@ -3,65 +3,64 @@
 // R_C  R1_C1-R1_C2-...-R1_CM
 //  =     :     :    :    :
 //  1   RN_C1-RN_C2-...-RN_CM
-				
-struct LIST {
-  LIST *u, *d, *l, *r, *h;
-  int size, index;
-  LIST() : size(0), index(-1) { u = d = l = r = h = NULL; }
+
+#define FOR(p, init, dir) for(pList p = init; p; p = p->dir)
+#define IF(p, l, r, q) if(p->l) p->l->r = q
+
+struct List {
+  List *u, *d, *l, *r, *head, *stack;
+  int number;
+  List() : number(0) { u = d = l = r = head = stack = NULL; }
 };
- 
-inline void remove(LIST* p, vector<LIST*>& backup) {
-  if (p->l) p->l->r = p->r; if (p->u) p->u->d = p->d;
-  if (p->r) p->r->l = p->l; if (p->d) p->d->u = p->u;
-  if (p->h) p->h->size--;
-  backup.push_back(p);
+
+typedef List* pList;
+
+inline void remove(pList p, pList& backup) {
+  IF(p, l, r, p->r); IF(p, u, d, p->d);
+  IF(p, r, l, p->l); IF(p, d, u, p->u);
+  p->head->number--;
+  p->stack = backup; backup = p;
 }
- 
-inline void restore(vector<LIST*>& backup) {
-	reverse(backup.begin(), backup.end());
-	for (LIST* p : backup) {
-    if (p->l) p->l->r = p; if (p->u) p->u->d = p;
-    if (p->r) p->r->l = p; if (p->d) p->d->u = p;
-    if (p->h) p->h->size++;
+
+inline void restore(pList& p) {
+  for (; p; p = p->stack) {
+    IF(p, l, r, p); IF(p, u, d, p);
+    IF(p, r, l, p); IF(p, d, u, p);
+    p->head->number++;
   }
-	backup.resize(0);
 }
- 
-inline void remove_common(LIST* p, vector<LIST*>& backup) {
+
+inline void remove_common(pList p, pList& backup) {
   remove(p, backup);
-  for (LIST* l = p->l; l; l = l->l) remove(l, backup);
-  for (LIST* r = p->r; r; r = r->r) remove(r, backup);
+  FOR(l, p->l, l) remove(l, backup);
+  FOR(r, p->r, r) remove(r, backup);
 }
- 
-inline void remove_head(LIST* p, vector<LIST*>& backup) {
-  for (LIST* h = p->h; h; h = h->d)
-    if (h->index >= 0) remove_common(h, backup);
-    else remove(h, backup);
+
+inline void remove_head(pList h, pList& backup) {
+  h = h->head; remove(h, backup);
+  FOR(p, h->d, d) remove_common(p, backup);
 }
- 
-inline void remove_heads(LIST* p, vector<LIST*>& backup) {
-  for (LIST* l = p->l; l; l = l->l) remove_head(l, backup);       
-  for (LIST* r = p->r; r; r = r->r) remove_head(r, backup);   
-  remove_head(p, backup);
+
+inline void remove_heads(pList p, pList& backup) {
+  FOR(l, p->l, l) remove_head(l, backup);
+  FOR(r, p->r, r) remove_head(r, backup);
 }
- 
-vector<int> ANSWER;
- 
-bool exact_cover(LIST* HEAD) {
-  if (!HEAD->r) return true;    
-  LIST* START = HEAD->r;
-  for (LIST* TRY = START; TRY; TRY = TRY->r)
-    if (TRY->size < START->size) START = TRY;   
-  if (START->size == 0) return false;
-  vector<LIST*> column, backup;
-  for (LIST* p = START->d; p; p = p->d) {
+
+vector<int> answer;
+
+inline int exact_cover(pList head) {
+  if (!head->r) return 1;
+  pList cur = head->r;
+  FOR(p, cur, r) if (p->number < cur->number) cur = p;
+  if (cur->number == 0) return 0;
+  pList col = NULL, backup = NULL;
+  remove_head(cur->d, col);
+  FOR(p, cur->d, d) {
     remove_heads(p, backup);
-    if (exact_cover(HEAD)) {
-      ANSWER.push_back(p->index);
-      restore(backup);
-      return true;
-    }
-    restore(backup);
-  }
-  return false;
+    if (exact_cover(head)) {
+      answer.pb(p->number); restore(backup); restore(col);
+      return 1;
+    } restore(backup);
+  } restore(col);
+  return 0;
 }
