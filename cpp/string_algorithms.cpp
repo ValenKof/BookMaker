@@ -32,7 +32,7 @@ void pal(const string& s) {
 
 VI z_function(const string& s) {
   int n = sz(s);
-  VI z(n);
+  VI z(n, 0); // z[i] = lcp(s[0..n], s[i..n]), z[0] = 0 !
   for (int i = 1, l = 0, r = 0; i < n; ++i) {
     if (i <= r) z[i] = min(r - i + 1, z[i - l]);
     while (i + z[i] < n && s[z[i]] == s[i + z[i]]) z[i]++;
@@ -43,7 +43,7 @@ VI z_function(const string& s) {
 
 VI prefix_function(const string& s) {
   int n = sz(s);
-  VI pi(n);
+  VI pi(n, 0); // p[i] = max k <= i : s[0..k) = s(i-k..i]
   for (int i = 1; i < n; ++i) {
     int j = pi[i - 1];
     while (j > 0 && s[i] != s[j]) j = pi[j - 1];
