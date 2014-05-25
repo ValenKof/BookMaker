@@ -1,6 +1,12 @@
-typedef complex<double> base; //struct { double re, im } better
-//int MOD=1051721729, GEN=330, REV=rev(GEN,MOD), POWER=1<<20;
-//binPow(GEN,POWER,MOD) = 1, binPow(GEN,x,MOD) != 1  0<x<POWER
+typedef complex<double> base; // or struct { double re, im }
+// int MOD=1051721729, GEN=330, REV=rev(GEN,MOD), POWER=1<<20;
+// binPow(GEN,POWER,MOD) = 1, binPow(GEN,x,MOD) != 1  0<x<POWER
+
+// int A[n], int B[n], pdd C[n]. C = A + i * B. n = 2 ^ k.
+// FFT_A[i] = base(1,0) * (!FFT_C[(n-i)&(n-1)] + FFT_C[i]) / 2.
+// FFT_B[i] = base(0,1) * (!FFT_C[(n-i)&(n-1)] - FFT_C[i]) / 2.
+// !(A + i * B) = A - i * B.
+
 void fft(vector<base>& a, bool invert) {
   int n = sz(a);
   for (int i = 1, j = 0; i < n; ++i) {
