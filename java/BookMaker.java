@@ -86,12 +86,21 @@ class CppCompiler implements Callable<String> {
 
     private final File file;
     private final String header;
+    private String dsym;
 
     public CppCompiler(File file, String header) {
         this.file = file;
         this.header = header;
     }
 
+    private void delete(final File file) {
+        if (file.isDirectory()) {
+            for (File sub : file.listFiles()) {
+                delete(sub);
+            }
+        }
+        file.delete();
+    }
 
     @Override
     public String call() {
@@ -128,6 +137,7 @@ class CppCompiler implements Callable<String> {
 
             String exeFile = cppFile.getAbsolutePath().replace(".cpp", ".exe");
             new File(exeFile).deleteOnExit();
+            dsym = exeFile + ".dSYM";
             Process compile = Runtime.getRuntime().exec(GCC + " " + cppFile.getAbsolutePath() + " -o " + exeFile);
 
             if (compile.waitFor() == 0) {
@@ -144,6 +154,10 @@ class CppCompiler implements Callable<String> {
             return message.toString();
         } catch (IOException | InterruptedException e) {
             return EXCEPTION + ": " + e.getMessage();
+        } finally {
+            if (dsym != null) {
+                delete(new File(dsym));
+            }
         }
     }
 }
