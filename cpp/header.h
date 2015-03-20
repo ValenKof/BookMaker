@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
+#include <functional>
 #include <stack>
 #include <complex>
 #include <queue>
