@@ -92,30 +92,58 @@ struct Graph
         return dist[t] < numeric_limits<TCost>::max();
     }
 
-    inline bool dijkstra_dense(vector<TCost>& dist, CostFunction cost)
-    {
-        fill(all(dist), numeric_limits<TCost>::max());
-        fill(all(used), false);
-        fill(all(from), -1);
+    inline bool dijkstra_dense(std::vector<TCost>& dist, CostFunction cost) {
+        std::fill(all(dist), std::numeric_limits<TCost>::max());
+        std::fill(all(used), false);
+        std::fill(all(from), -1);
+
+        int blockPower = 0;
+        while ((1 << blockPower) * (1 << blockPower) < n) {
+            blockPower++;
+        }
+        int blockSize = (1 << blockPower);
+        int blockCount =  (n + blockSize + 1) >> blockPower;
+        std::vector<int> distBlock(blockCount, -1);
         dist[s] = 0;
+        distBlock[s >> blockPower] = s;
+
         forn (i, n) {
+            // find
             int u = -1;
-            forn (j, n) {
-                if (!used[j] && (u == -1 || dist[j] < dist[u])) {
-                    u = j;
+            for (int x : distBlock) {
+                if (x != -1 && (u == -1 || dist[x] < dist[u])) {
+                    u = x;
                 }
             }
-            if (u == -1 || dist[u] == numeric_limits<TCost>::max()) {
+            if (u == -1) {
                 break;
             }
-            TCost du = dist[u];
+            // update current block
             used[u] = true;
+            int block = u >> blockPower;
+            int l = block << blockPower;
+            int r = min(n, l + blockSize);
+            distBlock[block] = -1;
+            for (int j = l; j < r; ++j) {
+                if (!used[j] && (distBlock[block] == -1 || dist[j] < dist[distBlock[block]])) {
+                    distBlock[block] = j;
+                }
+            }
+            if (dist[distBlock[block]] == numeric_limits<TCost>::max()) {
+                distBlock[block] = -1;
+            }
+            // update new nodes
+            TCost du = dist[u];
             for (int arc = head[u]; arc != -1; arc = next[arc]) {
                 int v = dest[arc];
                 TCost dv = du + cost(arc, u, v);
                 if (cap[arc] > 0 && dv < dist[v]) {
                     dist[v] = dv;
                     from[v] = arc;
+                    block = v >> blockPower;
+                    if (!used[v] && (distBlock[block] == -1 || dv < dist[distBlock[block]])) {
+                        distBlock[block] = v;
+                    }
                 }
             }
         }
