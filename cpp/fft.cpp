@@ -22,7 +22,7 @@ void fft(vector<base>& a, bool invert) {
   for (int len = 1; len < n; len <<= 1) {
     double ang = (2*PI) / (2*len) * (invert ? -1 : +1);
     base wlen(cos(ang), sin(ang));
-    //int wlen = binPow(invert?REV:GEN,POWER/(len*2), MOD);
+    //int wlen = binPow(invert?REV:GEN, POWER/(len*2), MOD);
     for (int i = 0; i < n; i += 2 * len) {
       base w(1, 0); // ... 1
       forn (j, len) {
@@ -35,6 +35,26 @@ void fft(vector<base>& a, bool invert) {
     }
   }
   if (invert) forn (i, n) a[i] /= n; // ... %MOD
+}
+
+base gen() {
+  for (base x = 1; x < MOD; ++x) {
+    if (binPow(x, POWER, MOD) == 1) {
+      bool ok = true;
+      base p = 1;
+      for (int i = 1; i < POWER; ++i) {
+        p = p * x % MOD;
+        if (p == 1) {
+          ok = false;
+          break;
+        }
+      }
+      if (ok) {
+        return x;
+      }
+    }
+  }
+  return -1;
 }
 
 void tr(vector<vector<base> >& a) {
