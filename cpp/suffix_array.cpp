@@ -16,9 +16,9 @@ void solve() {
   for (int h = 0; (1 << h) < n; ++h) {
     forn (i, n) {
       pn[i] = p[i] - (1 << h);
-      if (pn[i] < 0)  pn[i] += n;
+      if (pn[i] < 0) pn[i] += n;
     }
-    fill(cnt, cnt + A, 0);
+    fill(cnt, cnt + n, 0);
     forn (i, n) cnt[c[pn[i]]]++;
     forn (i, A - 1) cnt[i + 1] += cnt[i];
     for (int i = n - 1; i >= 0; --i) p[--cnt[c[pn[i]]]] = pn[i];
