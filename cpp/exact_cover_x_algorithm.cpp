@@ -64,3 +64,55 @@ inline int exact_cover(pList head) {
   } restore(col);
   return 0;
 }
+
+template<int NUM_BIT>
+pair<bool, vector<int>> solve(const vector<BIT>& have, const BIT& need) {
+  pList HEAD = new List();
+  HEAD->number = -1;
+  pList LAST_HEAD = HEAD;
+  vector<pList> LAST_COL(NUM_BIT, NULL);
+  vector<pList> HEADS(NUM_BIT, NULL);
+  for (int i = 0; i < NUM_BIT; ++i) {
+    if (need[i]) {
+      pList LAST = new List();
+      LAST->head = LAST;
+      LAST->number = 0;
+      LAST_HEAD->r = LAST;
+      LAST->l = LAST_HEAD;
+      LAST_HEAD = LAST;
+      HEADS[i] = LAST;
+      LAST_COL[i] = LAST;
+    }
+  }
+  forn (i, sz(have)) {
+    if ((have[i] & need) == have[i]) {
+      pList CURR = NULL;
+      forn (j, NUM_BIT) {
+        if (have[i][j]) {
+          pList LAST = new List();
+          HEADS[j]->number++;
+          LAST->head = HEADS[j];
+          LAST->number = i;
+          LAST->l = CURR;
+          if (CURR) CURR->r = LAST;
+          CURR = LAST;
+          LAST->u = LAST_COL[j];
+          LAST_COL[j]->d = LAST;
+          LAST_COL[j] = LAST;
+        }
+      }
+    }
+  }
+  answer.clear();
+  bool ok = exact_cover(HEAD);
+  while (HEAD != NULL) {
+    pList CURR = HEAD;
+    HEAD = HEAD->r;
+    while (CURR != NULL) {
+        pList NEXT = CURR->d;
+        delete CURR;
+        CURR = NEXT;
+    }
+  }
+  return make_pair(ok, answer);
+}
