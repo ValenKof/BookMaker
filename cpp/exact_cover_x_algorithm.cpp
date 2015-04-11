@@ -66,7 +66,7 @@ inline int exact_cover(pList head) {
 }
 
 template<int NUM_BIT>
-pair<bool, vector<int>> solve(const vector<BIT>& have, const BIT& need) {
+pair<bool, vector<int>> solve(const vector<bitset<NUM_BIT>>& have, const bitset<NUM_BIT>& need) {
   pList HEAD = new List();
   HEAD->number = -1;
   pList LAST_HEAD = HEAD;
