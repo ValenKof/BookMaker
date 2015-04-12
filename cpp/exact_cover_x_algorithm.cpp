@@ -10,7 +10,7 @@
 struct List {
   List *u, *d, *l, *r, *head, *stack;
   int number;
-  List() : number(0) { u = d = l = r = head = stack = NULL; }
+  List() : number(0) { u = d = l = r = head = stack = nullptr; }
 };
 
 typedef List* pList;
@@ -46,18 +46,16 @@ inline void remove_heads(pList p, pList& backup) {
   FOR(r, p->r, r) remove_head(r, backup);
 }
 
-vector<int> answer;
-
-inline int exact_cover(pList head) {
+inline int exact_cover(pList head, vector<int>& answer) {
   if (!head->r) return 1;
   pList cur = head->r;
   FOR(p, cur, r) if (p->number < cur->number) cur = p;
   if (cur->number == 0) return 0;
-  pList col = NULL, backup = NULL;
+  pList col = nullptr, backup = nullptr;
   remove_head(cur->d, col);
   FOR(p, cur->d, d) {
     remove_heads(p, backup);
-    if (exact_cover(head)) {
+    if (exact_cover(head, answer)) {
       answer.pb(p->number); restore(backup); restore(col);
       return 1;
     } restore(backup);
@@ -67,14 +65,17 @@ inline int exact_cover(pList head) {
 
 template<int NUM_BIT>
 pair<bool, vector<int>> solve(const vector<bitset<NUM_BIT>>& have, const bitset<NUM_BIT>& need) {
-  pList HEAD = new List();
+  vector<List> buffer;
+  buffer.reserve(10 + need.count() * (sz(have) + 1));
+  auto newList = [&]{ buffer.pb(List()); return &(buffer.back()); };
+  pList HEAD = newList();
   HEAD->number = -1;
   pList LAST_HEAD = HEAD;
-  vector<pList> LAST_COL(NUM_BIT, NULL);
-  vector<pList> HEADS(NUM_BIT, NULL);
+  vector<pList> LAST_COL(NUM_BIT, nullptr);
+  vector<pList> HEADS(NUM_BIT, nullptr);
   for (int i = 0; i < NUM_BIT; ++i) {
     if (need[i]) {
-      pList LAST = new List();
+      pList LAST = newList();
       LAST->head = LAST;
       LAST->number = 0;
       LAST_HEAD->r = LAST;
@@ -86,10 +87,10 @@ pair<bool, vector<int>> solve(const vector<bitset<NUM_BIT>>& have, const bitset<
   }
   forn (i, sz(have)) {
     if ((have[i] & need) == have[i]) {
-      pList CURR = NULL;
+      pList CURR = nullptr;
       forn (j, NUM_BIT) {
         if (have[i][j]) {
-          pList LAST = new List();
+          pList LAST = newList();
           HEADS[j]->number++;
           LAST->head = HEADS[j];
           LAST->number = i;
@@ -103,16 +104,7 @@ pair<bool, vector<int>> solve(const vector<bitset<NUM_BIT>>& have, const bitset<
       }
     }
   }
-  answer.clear();
-  bool ok = exact_cover(HEAD);
-  while (HEAD != NULL) {
-    pList CURR = HEAD;
-    HEAD = HEAD->r;
-    while (CURR != NULL) {
-        pList NEXT = CURR->d;
-        delete CURR;
-        CURR = NEXT;
-    }
-  }
+  vector<int> answer;
+  bool ok = exact_cover(HEAD, answer);
   return make_pair(ok, answer);
 }
