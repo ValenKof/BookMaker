@@ -20,7 +20,7 @@ void solve() {
     }
     fill(cnt, cnt + n, 0);
     forn (i, n) cnt[c[pn[i]]]++;
-    forn (i, A - 1) cnt[i + 1] += cnt[i];
+    forn (i, n - 1) cnt[i + 1] += cnt[i];
     for (int i = n - 1; i >= 0; --i) p[--cnt[c[pn[i]]]] = pn[i];
     cn[p[0]] = 0;
     for (int i = 1, classes = 1; i < n; ++i) {
