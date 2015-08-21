@@ -1,5 +1,4 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.*;
@@ -17,20 +16,16 @@ public class BookMaker {
         }
     }
 
-    public static String makeHeader(List<File> files) {
+    public static String makeHeader(final Iterable<File> files) {
         StringBuilder header = new StringBuilder();
         for (File file : files) {
-            header.append("#include \"").append(file.getName()).append('\"').append('\n');
+            header.append("#include \"" + file.getName() + "\"\n");
         }
         return header.toString();
     }
 
     public static void main(String[] args) {
-
         REQUIRE(args.length >= 1, "Usage: dir +add_file -ignore_file ... ");
-
-
-
 
         File dir = new File(args[0]);
         REQUIRE(dir.isDirectory(), args[0] + " is not a dir");
@@ -88,7 +83,7 @@ class CppCompiler implements Callable<String> {
     private final String header;
     private String dsym;
 
-    public CppCompiler(File file, String header) {
+    public CppCompiler(final File file, final String header) {
         this.file = file;
         this.header = header;
     }
@@ -114,15 +109,15 @@ class CppCompiler implements Callable<String> {
             List<Integer> longLines = SourceEditor.checkWidth(code, BookMaker.LINES_WIDTH);
             if (!longLines.isEmpty()) {
                 StringBuilder builder = new StringBuilder();
-                builder.append(LONG_LINES).append(" at ").append(file.getName()).append(":");
+                builder.append(LONG_LINES + " at " + file.getName() + ":");
                 for (int iLine : longLines) {
-                    builder.append(' ').append(iLine);
+                    builder.append(" " + iLine);
                 }
                 return builder.toString();
             }
 
             StringBuilder source = new StringBuilder();
-            source.append(header).append('\n').append(code).append('\n');
+            source.append(header + "\n" + code + "\n");
             if (!code.contains("int main()")) {
                 source.append("int main() { return 0; }");
             }
@@ -144,13 +139,12 @@ class CppCompiler implements Callable<String> {
                 return COMPILED;
             }
 
-            Scanner err = new Scanner(compile.getErrorStream());
-            StringBuilder message = new StringBuilder();
-            message.append(file.getName()).append(": ").append('\n');
-            while (err.hasNextLine()) {
-                message.append(err.nextLine()).append('\n');
+            StringBuilder message = new StringBuilder(file.getName() + ": \n");
+            try (Scanner err = new Scanner(compile.getErrorStream())) {
+                while (err.hasNextLine()) {
+                    message.append(err.nextLine() + "\n");
+                }
             }
-            err.close();
             return message.toString();
         } catch (IOException | InterruptedException e) {
             return EXCEPTION + ": " + e.getMessage();
