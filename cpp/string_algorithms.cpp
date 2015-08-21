@@ -52,3 +52,44 @@ VI prefix_function(const string& s) {
   }
   return pi;
 }
+
+// create - O(pattern) memory, O(pattern) time
+// query - O(1) memory, O(text) time
+
+struct Matcher {
+  string pattern_;
+  vector<int> prefix_;
+
+  Matcher(const string& pattern)
+    : pattern_(pattern)
+    , prefix_(sz(pattern))
+  {
+    prefix_[0] = 0;
+    for (int i = 1; i < sz(pattern_); ++i) {
+      int j = prefix_[i - 1];
+      while (j > 0 && pattern_[i] != pattern_[j]) {
+        j = prefix_[j - 1];
+      }
+      if (pattern_[i] == pattern_[j]) {
+        j++;
+      }
+      prefix_[i] = j;
+    }
+  }
+
+  int match(const string& text) {
+    int j = 0;
+    for (int i = 0; i < sz(text); ++i) {
+      while (j > 0 && (j == sz(pattern_) || text[i] != pattern_[j])) {
+        j = prefix_[j - 1];
+      }
+      if (text[i] == pattern_[j]) {
+        j++;
+      }
+      if (j == sz(pattern_)) {
+        return i + 1 - sz(pattern_);
+      }
+    }
+    return -1;
+  }
+};
