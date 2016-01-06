@@ -73,7 +73,7 @@ pair<bool, vector<int>> solve(const vector<bitset<NUM_BIT>>& have, const bitset<
   pList LAST_HEAD = HEAD;
   vector<pList> LAST_COL(NUM_BIT, nullptr);
   vector<pList> HEADS(NUM_BIT, nullptr);
-  for (int i = 0; i < NUM_BIT; ++i) {
+  forn (i, NUM_BIT) {
     if (need[i]) {
       pList LAST = newList();
       LAST->head = LAST;
@@ -106,5 +106,6 @@ pair<bool, vector<int>> solve(const vector<bitset<NUM_BIT>>& have, const bitset<
   }
   vector<int> answer;
   bool ok = exact_cover(HEAD, answer);
+  sort(all(answer));
   return make_pair(ok, answer);
 }
